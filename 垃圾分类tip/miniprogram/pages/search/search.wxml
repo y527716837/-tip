@@ -1,0 +1,20 @@
+<!--pages/search/search.wxml-->
+<view class='container'>
+  <!--搜索框开始-->
+  <view class="round search-form section">
+    <view class='search-img'>
+       <image src='/images/search.png'></image>
+    </view>
+    <input placeholder="请输入要查询的垃圾" placeholder-class='placeholder-search' value="" type="text" name="searchData" focus="true" value="{{searchData}}" bindinput='getInputValue'></input>
+  </view>
+   <!--搜索框结束-->
+   <!--搜索内容开始-->
+   <view class='searchContent' wx:for="{{garbageList}}" wx:if="{{isShow}}" wx:key="unique">
+    <text class='garbagTitle'>{{item.gname}}</text>
+    <text class='garbageType' decode="{{true}}">{{item.tname}}&nbsp;&nbsp;&nbsp;></text>
+   </view>
+   <!--搜索内容结束-->
+   <view wx:if="{{!isShow}}" class='searchContent noData'>
+    暂无查询的数据,我们将尽快完善
+   </view>
+</view>

@@ -1,0 +1,52 @@
+/* pages/search/search.wxss */
+/* 搜索框 */
+.round{
+  border-radius:100rpx;
+} 
+.search-form{
+  width: 74%;
+  height: 30px;
+  margin: 20px auto;
+  margin-bottom: 10px;
+  font-family: 'Microsoft YaHei';
+  font-size: 14px;
+  border: 1px solid #e2e2e2;
+}
+.search-img{
+  width: 30px;
+  height: 30px;
+  float: left;
+  margin-left: 5px;
+}
+.search-img image{
+  width: 100%;
+  height: 100%;
+}
+.search-form input{
+  /* border: 1px solid #e2e2e2; */
+  height: 30px;
+  width: 200px;
+  float: left;
+  padding:0 0 0 8px;
+  min-height: 0px;
+}
+.placeholder-search{
+  position: absolute;
+}
+.searchContent{
+  width: 74%;
+  height: 30px;
+  border-top: 1px solid #e2e2e2;
+  line-height: 30px;
+  color: #807676;
+}
+.garbagTitle{
+  float: left;
+  margin-left: 10px;
+}
+.garbageType{
+  float: right;
+}
+.noData{
+  text-align: center;
+}

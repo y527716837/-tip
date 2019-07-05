@@ -1,0 +1,40 @@
+<!--pages/home/home.wxml-->
+<view class='container'>
+  <!--搜索框开始-->
+  <view class="round search-form section">
+    <view class='search-img'>
+       <image src='/images/search.png'></image>
+    </view>
+    <input placeholder="请输入要查询的垃圾" placeholder-class='placeholder-search' value="" type="text" name="searchData"  bindtap='goSearch'></input>
+  </view>
+   <!--搜索框结束-->
+</view>
+ <!--页面主体开始-->
+<view id="main">
+    <swiper previous-margin='100px'  next-margin='100px' bindchange="swiperChange" style='height:{{swiperH}};' circular='true'>
+    <swiper-item wx:for='{{imgList}}' wx:key=''>
+    <!-- <navigator url='/pages/index/index?tid={{nowIdx}}'> -->
+        <image class='le-img {{nowIdx==index?"le-active":""}}' bindload='getHeight' src='{{item}}' style='height:{{swiperH}};'></image>
+    <!-- </navigator> -->
+        
+    </swiper-item>
+</swiper>
+<view class='waste-detail'>
+  <view class='border' style='background-color:{{introduce[nowIdx].backgroundColor}};'>
+    <text class='waste-title'>{{introduce[nowIdx].name}}</text>
+  </view>
+  <view class='info' style='color:{{introduce[nowIdx].color}}'>
+    {{introduce[nowIdx].info}}
+  </view>
+
+    <view class='border' style='background-color:{{introduce[nowIdx].backgroundColor}};'>
+    <text class='waste-title'>{{introduce[nowIdx].name}}投放要求</text>
+  </view>
+  <view class='info' style='color:{{introduce[nowIdx].color}}'>
+    <view wx:for="{{introduce[nowIdx].demand}}" wx:key="unique">
+      * {{item}}
+    </view>
+  </view>
+</view>
+</view>
+<!--页面主体结束-->
