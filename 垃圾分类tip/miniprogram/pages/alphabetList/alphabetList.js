@@ -1,38 +1,20 @@
 Page({
   data:{
-    list: [
-      {alphabet: 'Top', datas: ['asome','aentries','are here']},
-      {alphabet: 'A', datas: ['asome','aentries','are here']},
-      {alphabet: 'B', datas: ['bbsome','bebntries','bare here']},
-      {alphabet: 'C', datas:  ['csome','centries','care here']},
-      {alphabet: 'D', datas:  ['dsome','dentries','dare here']},
-      {alphabet: 'E', datas:  ['esome','eentries','eare here']},
-      {alphabet: 'F', datas:  ['fsome','fentries','are here']},
-      {alphabet: 'G', datas:  ['gsome','gentries','gare here']},
-      {alphabet: 'H', datas:  ['hsome','hentries','hare here']},
-      {alphabet: 'I', datas:  ['isome','ientries','iare here']},
-      {alphabet: 'J', datas:  ['jsome','jentries','jare here']},
-      {alphabet: 'K', datas:  ['ksome','kentries','kare here']},
-      {alphabet: 'L', datas:  ['lsome','lentries','lare here']},
-      {alphabet: 'M', datas:  ['msome','mentries','mare here']},
-      {alphabet: 'N', datas:  ['nsome','nentries','nare here']},
-      {alphabet: 'O', datas:  ['osome','oentries','oare here']},
-      {alphabet: 'P', datas:  ['psome','pentries','pare here']},
-      {alphabet: 'Q', datas:  ['qsome','qentries','qare here']},
-      {alphabet: 'R', datas:  ['rsome','rentries','rare here']},
-      {alphabet: 'S', datas:  ['some','sentries','sare here']},
-      {alphabet: 'T', datas:  ['tsome','tentries','tare here']},
-      {alphabet: 'U', datas:  ['usome','uentries','uare here']},
-      {alphabet: 'V', datas:  ['vsome','ventries','vare here']},
-      {alphabet: 'W', datas:  ['wsome','wentries','ware here']},
-      {alphabet: 'X', datas:  ['xsome','xentries','xare here']},
-      {alphabet: 'Y', datas:  ['ysome','yentries','yare here']},
-      {alphabet: 'Z', datas:  ['zsome','zentries','zare here']},
-    ],
+    list: [],
     alpha: '',
-    windowHeight: ''
+    windowHeight: '',
+    tid:1,
+    index:0,
+    imgList: [//图片列表
+      "../../images/residualWaste.jpg",
+      "../../images/recyclableWaste.jpg",
+      "../../images/householdFoodWaste.jpg",
+      "../../images/hazardousWaste.jpg",
+    ]
   },
   onLoad(options){
+    var tid =  parseInt(options.tid);
+    var index = parseInt(options.index);
     try {
       var res = wx.getSystemInfoSync()
       this.pixelRatio = res.pixelRatio;
@@ -40,7 +22,12 @@ Page({
       // this.offsetTop = 160 / this.pixelRatio;
       this.apHeight = 16;
       this.offsetTop = 80;
-      this.setData({windowHeight: res.windowHeight + 'px'})
+      this.setData({
+        windowHeight: res.windowHeight + 'px',
+        tid:tid,
+        index: index
+      });
+
     } catch (e) {
       
     }
@@ -64,19 +51,44 @@ Page({
   },
   onQuery: function () {
     var that=this;
-    const db = wx.cloud.database();
-    db.collection('garbage').where({
-      tid:2
-    }).get({
-      success: function (res) {
-         for(var i in res.data){
-            for(var l in that.data.list)   {
-              if (that.list[l].alphabet === res.data[i].initials){
-                this.setData
-                break;
-              }
-            }         
+    wx.cloud.callFunction({
+      // 要调用的云函数名称
+      name: 'test',
+      // 传递给云函数的参数
+      data: {
+        type:'get',
+        db:'garbage',
+        condition:{
+          tid:that.data.tid
         }
+      },
+      success: res => {
+        // output: res.result === 3
+        var allList=[];
+        var letter = new Array('Top','A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
+        var list = new Array();
+        var list1 = new Array();
+        for (var i in res.result){
+          for (var j in res.result[i].data){
+            allList.push(res.result[i].data[j]);
+          }
+        }
+        for (var i = 0; i < 27; i++) {
+          const result = allList.filter(function (item) {
+            return item.initials === letter[i]
+          });
+          list[i] = result;
+        }
+        for (var i = 0; i < list.length; i++) {
+          var list2 = new Array();
+          for (var j = 0; j < list[i].length; j++) {
+            list2.push(list[i][j].gname);
+          }
+          list1.push({ alphabet: letter[i], datas: list2 });
+        }
+        that.setData({
+          list: list1
+        })
       }
     })
   }

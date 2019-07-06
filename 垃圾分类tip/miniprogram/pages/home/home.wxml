@@ -13,9 +13,9 @@
 <view id="main">
     <swiper previous-margin='100px'  next-margin='100px' bindchange="swiperChange" style='height:{{swiperH}};' circular='true'>
     <swiper-item wx:for='{{imgList}}' wx:key=''>
-    <!-- <navigator url='/pages/index/index?tid={{nowIdx}}'> -->
+   <navigator url="/pages/alphabetList/alphabetList?tid={{typeList[nowIdx]}}&index={{nowIdx}}">
         <image class='le-img {{nowIdx==index?"le-active":""}}' bindload='getHeight' src='{{item}}' style='height:{{swiperH}};'></image>
-    <!-- </navigator> -->
+    </navigator> 
         
     </swiper-item>
 </swiper>

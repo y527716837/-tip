@@ -1,6 +1,7 @@
 <scroll-view scroll-y style="height: {{windowHeight}}" scroll-into-view="{{alpha}}">
 <view class="alphabet">
   <view id="Top" class="header">
+   <image src='{{imgList[index]}}'></image>
     
   </view>
   <view class="alphabet-list">
